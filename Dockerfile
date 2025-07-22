@@ -1,18 +1,10 @@
-# Use official OpenJDK 17 Alpine image
+FROM maven:3.8.5-openjdk-17 AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean test package
+
+# Package stage
 FROM openjdk:17-jdk-alpine
-
-# Set working directory
-WORKDIR /app
-
-# Copy the built JAR file (change this to match your build output)
-COPY target/*.jar app.jar
-
-# Create a non-root user and switch to it
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
-
-# Expose the port your app runs on
+COPY --from=build /home/app/target/*.jar app.jar
 EXPOSE 8080
-
-# Entry point to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
