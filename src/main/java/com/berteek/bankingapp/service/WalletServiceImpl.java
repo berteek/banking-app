@@ -1,7 +1,7 @@
 package com.berteek.bankingapp.service;
 
 import com.berteek.bankingapp.api.service.WalletService;
-import com.berteek.bankingapp.service.model.TransactionResult;
+import com.berteek.bankingapp.service.model.Result;
 import com.berteek.bankingapp.service.model.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,30 +20,46 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet findById(UUID id) {
-        return Mapper.DataToService(dao.findById(id));
-    }
-
-    @Override
-    public TransactionResult deposit(UUID id, BigDecimal amount) {
+    public Result findById(UUID id) {
         Wallet wallet = Mapper.DataToService(dao.findById(id));
         if (wallet == null) {
-            return new TransactionResult(TransactionResult.Status.FAILURE, "Could not find wallet");
+            return new Result(Result.Status.FAILURE, "Could not find wallet", null);
         }
-        wallet.setBalance(wallet.getBalance().add(amount));
-        return new TransactionResult(TransactionResult.Status.SUCCESS, "Successfully deposited");
+        return new Result(Result.Status.SUCCESS, "Found wallet", wallet);
     }
 
     @Override
-    public TransactionResult withdraw(UUID id, BigDecimal amount) {
-        Wallet wallet = Mapper.DataToService(dao.findById(id));
+    public Result deposit(UUID id, BigDecimal amount) {
+        com.berteek.bankingapp.data.model.Wallet dataWallet = dao.findById(id);
+        Wallet wallet = Mapper.DataToService(dataWallet);
         if (wallet == null) {
-            return new TransactionResult(TransactionResult.Status.FAILURE, "Could not find wallet");
+            return new Result(Result.Status.FAILURE, "Could not find wallet", null);
+        }
+
+        wallet.setBalance(wallet.getBalance().add(amount));
+        dataWallet.setBalance(wallet.getBalance());
+
+        dao.save(dataWallet);
+
+        return new Result(Result.Status.SUCCESS, "Successfully deposited", wallet);
+    }
+
+    @Override
+    public Result withdraw(UUID id, BigDecimal amount) {
+        com.berteek.bankingapp.data.model.Wallet dataWallet = dao.findById(id);
+        Wallet wallet = Mapper.DataToService(dataWallet);
+        if (wallet == null) {
+            return new Result(Result.Status.FAILURE, "Could not find wallet", null);
         }
         if (wallet.getBalance().compareTo(amount) < 0) {
-            return new TransactionResult(TransactionResult.Status.FAILURE, "Insufficient balance");
+            return new Result(Result.Status.FAILURE, "Insufficient balance", wallet);
         }
+
         wallet.setBalance(wallet.getBalance().subtract(amount));
-        return new TransactionResult(TransactionResult.Status.SUCCESS, "Successfully withdrawn");
+        dataWallet.setBalance(wallet.getBalance());
+
+        dao.save(dataWallet);
+
+        return new Result(Result.Status.SUCCESS, "Successfully withdrawn", wallet);
     }
 }

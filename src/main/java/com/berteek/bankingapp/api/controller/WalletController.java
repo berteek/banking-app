@@ -1,13 +1,12 @@
 package com.berteek.bankingapp.api.controller;
 
 import com.berteek.bankingapp.api.service.WalletService;
-import com.berteek.bankingapp.service.model.TransactionResult;
+import com.berteek.bankingapp.service.model.Result;
 import com.berteek.bankingapp.service.model.Wallet;
 import com.berteek.bankingapp.service.model.WalletTransaction;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,12 +31,17 @@ public class WalletController {
     }
 
     @PostMapping("/wallet")
-    public TransactionResult makeWalletTransaction(@RequestBody WalletTransaction walletTransaction) {
-        return walletService.withdraw(walletTransaction.getWalletId(), walletTransaction.getAmount());
+    public Result makeWalletTransaction(@RequestBody WalletTransaction walletTransaction) {
+        if (walletTransaction.getOperationType().equals(WalletTransaction.OPERATION_DEPOSIT)) {
+            return walletService.deposit(walletTransaction.getWalletId(), walletTransaction.getAmount());
+        } else if (walletTransaction.getOperationType().equals(WalletTransaction.OPERATION_WITHDRAW)) {
+            return walletService.withdraw(walletTransaction.getWalletId(), walletTransaction.getAmount());
+        }
+        return new Result(Result.Status.FAILURE, "Invalid operation type", null);
     }
 
     @GetMapping("/wallets/{id}")
-    public Wallet getWalletBalance(@PathVariable UUID id) {
+    public Result getWalletBalance(@PathVariable UUID id) {
         return walletService.findById(id);
     }
 }

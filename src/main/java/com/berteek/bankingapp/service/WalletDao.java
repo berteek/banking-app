@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface WalletDao {
 
     public Wallet findById(UUID id);
+    public void save(Wallet wallet);
 }
