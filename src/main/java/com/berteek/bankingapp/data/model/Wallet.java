@@ -3,6 +3,7 @@ package com.berteek.bankingapp.data.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +16,7 @@ public class Wallet {
     public UUID id;
 
     @Column(name = "balance")
-    public Integer balance;
+    public BigDecimal balance;
 
     public Wallet() {}
 
@@ -27,11 +28,11 @@ public class Wallet {
         this.id = id;
     }
 
-    public Integer getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 }

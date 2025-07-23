@@ -1,12 +1,13 @@
 package com.berteek.bankingapp.service.model;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Wallet {
 
     private UUID id;
 
-    private Integer balance;
+    private BigDecimal balance;
 
     public UUID getId() {
         return id;
@@ -16,11 +17,11 @@ public class Wallet {
         this.id = id;
     }
 
-    public Integer getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 }

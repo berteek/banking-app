@@ -1,5 +1,6 @@
 package com.berteek.bankingapp.service.model;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class WalletTransaction {
@@ -11,7 +12,7 @@ public class WalletTransaction {
 
     private String operationType;
 
-    private Integer amount;
+    private BigDecimal amount;
 
     public UUID getWalletId() {
         return walletId;
@@ -29,11 +30,11 @@ public class WalletTransaction {
         this.operationType = operationType;
     }
 
-    public Integer getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

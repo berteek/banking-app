@@ -1,3 +1,12 @@
+com/berteek/bankingapp/data/model/Wallet.class
 com/berteek/bankingapp/BankingappApplication.class
-com/berteek/bankingapp/api/controller/HelloController.class
-com/berteek/bankingapp/api/model/Wallet.class
+com/berteek/bankingapp/api/controller/WalletController.class
+com/berteek/bankingapp/api/service/WalletService.class
+com/berteek/bankingapp/service/WalletDao.class
+com/berteek/bankingapp/data/WalletDaoImpl.class
+com/berteek/bankingapp/service/Mapper.class
+com/berteek/bankingapp/service/WalletServiceImpl.class
+com/berteek/bankingapp/service/model/WalletTransaction.class
+com/berteek/bankingapp/service/model/TransactionResult$Status.class
+com/berteek/bankingapp/service/model/Wallet.class
+com/berteek/bankingapp/service/model/TransactionResult.class

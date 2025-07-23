@@ -6,6 +6,7 @@ import com.berteek.bankingapp.service.model.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -24,25 +25,25 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public TransactionResult deposit(UUID id, Integer amount) {
+    public TransactionResult deposit(UUID id, BigDecimal amount) {
         Wallet wallet = Mapper.DataToService(dao.findById(id));
         if (wallet == null) {
             return new TransactionResult(TransactionResult.Status.FAILURE, "Could not find wallet");
         }
-        wallet.setBalance(wallet.getBalance() + amount);
+        wallet.setBalance(wallet.getBalance().add(amount));
         return new TransactionResult(TransactionResult.Status.SUCCESS, "Successfully deposited");
     }
 
     @Override
-    public TransactionResult withdraw(UUID id, Integer amount) {
+    public TransactionResult withdraw(UUID id, BigDecimal amount) {
         Wallet wallet = Mapper.DataToService(dao.findById(id));
         if (wallet == null) {
             return new TransactionResult(TransactionResult.Status.FAILURE, "Could not find wallet");
         }
-        if (wallet.getBalance() < amount) {
+        if (wallet.getBalance().compareTo(amount) < 0) {
             return new TransactionResult(TransactionResult.Status.FAILURE, "Insufficient balance");
         }
-        wallet.setBalance(wallet.getBalance() - amount);
+        wallet.setBalance(wallet.getBalance().subtract(amount));
         return new TransactionResult(TransactionResult.Status.SUCCESS, "Successfully withdrawn");
     }
 }
