@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Wallet {
 
+
     private UUID id;
 
     private BigDecimal balance;
