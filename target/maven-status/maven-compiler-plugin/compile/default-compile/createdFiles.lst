@@ -1,1 +1,3 @@
 com/berteek/bankingapp/BankingappApplication.class
+com/berteek/bankingapp/api/controller/HelloController.class
+com/berteek/bankingapp/api/model/Wallet.class

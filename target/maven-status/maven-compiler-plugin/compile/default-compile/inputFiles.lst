@@ -1,2 +1,3 @@
 /home/berteek/Development/Java/BankingApp/banking-app/src/main/java/com/berteek/bankingapp/BankingappApplication.java
 /home/berteek/Development/Java/BankingApp/banking-app/src/main/java/com/berteek/bankingapp/api/controller/HelloController.java
+/home/berteek/Development/Java/BankingApp/banking-app/src/main/java/com/berteek/bankingapp/api/model/Wallet.java
